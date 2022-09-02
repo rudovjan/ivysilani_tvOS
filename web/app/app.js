@@ -17,6 +17,7 @@ import AlphabetPage from 'pages/alphabet'
 import DatesPage from 'pages/dates'
 import GenresPage from 'pages/genres'
 import FavoritesPage from 'pages/favorites'
+import VypravejPage from 'pages/vypravej'
 import LivePage from 'pages/live'
 
 import AlphabetLetterPage from 'pages/alphabet-letter'
@@ -65,15 +66,15 @@ ATV.start({
     error: errorTpl,
     // status level error handlers
     status: {
-      '404': () => errorTpl({
+      404: () => errorTpl({
         title: '404',
         message: 'Page cannot be found!'
       }),
-      '500': () => errorTpl({
+      500: () => errorTpl({
         title: '500',
         message: 'An unknown error occurred in the application. Please try again later.'
       }),
-      '503': () => errorTpl({
+      503: () => errorTpl({
         title: '500',
         message: 'An unknown error occurred in the application. Please try again later.'
       })

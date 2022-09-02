@@ -8,13 +8,13 @@ import favorites from 'lib/favorites.js'
 let showInfo
 
 var AlphabetLetterPage = ATV.Page.create({
-  name: 'programme-list',
+  name: 'vypravej-list',
   template: template,
-  ready: function (options, resolve, reject) {
+  ready: function (options = {}, resolve, reject) {
     // ATV.Navigation.showLoading({data : {message: 'Načítání'}});
     // Paging support
     let currentPage
-    let pageSize = 1000
+    let pageSize = 20
     if ('paging' in options) { currentPage = options.paging.nextPage } else { currentPage = '1' }
     if ('showInfo' in options) { showInfo = options.showInfo } else { showInfo = options }
     // Když přicestuji z programme-details kliknutim na dalsi epizody
@@ -22,9 +22,9 @@ var AlphabetLetterPage = ATV.Page.create({
 
     let getProgrammeList = ATV.Ajax.post(API.url.programmeList, API.xhrOptions(
       {
-        ID: showInfo.ID,
+        ID: 10195164142,
         'paging[episodes][currentPage]': currentPage,
-        'paging[episodes][pageSize]': pageSize,
+        'paging[episodes][pageSize]': 1000,
         'type[0]': 'episodes',
         'type[1]': 'related',
         'type[2]': 'bonuses'
@@ -37,17 +37,16 @@ var AlphabetLetterPage = ATV.Page.create({
       .all([getProgrammeList])
       .then((xhrs) => {
         let programmeList = fastXmlParser.parse(xhrs[0].response).programmes
-        console.log(programmeList)
+        console.warn(programmeList)
         // console.log(xhrs[0].response)
-
         // Modifikace pagování, odstraň paging, pokud se všechno vešlo na 1 stránku
-        if (programmeList.episodes.paging.pagesCount === 1) { delete programmeList.episodes.paging }
-        // U některých pořadů má iVysílání chybu -> ukazuje, že je více stránek,
-        // přitom další už je prázdná
-        if (programmeList.episodes.programme.length < pageSize) { delete programmeList.episodes.paging }
-        // Pokud to není seriál ale film, obal to do pole, kvůli korektnímu zobrazení
-        // Kvuli konverzti XML -> JSON. fastXMLParser hodí jednu epizodu jako child, ne jako pole
-        if (!(programmeList.episodes.programme.constructor === Array)) { programmeList.episodes.programme = [programmeList.episodes.programme] }
+        // if (programmeList.episodes.paging.pagesCount === 1) { delete programmeList.episodes.paging }
+        // // U některých pořadů má iVysílání chybu -> ukazuje, že je více stránek,
+        // // přitom další už je prázdná
+        // if (programmeList.episodes.programme.length < pageSize) { delete programmeList.episodes.paging }
+        // // Pokud to není seriál ale film, obal to do pole, kvůli korektnímu zobrazení
+        // // Kvuli konverzti XML -> JSON. fastXMLParser hodí jednu epizodu jako child, ne jako pole
+        // if (!(programmeList.episodes.programme.constructor === Array)) { programmeList.episodes.programme = [programmeList.episodes.programme] }
 
         // Pokud se pořad nachází v oblíbených, uprav vzhled tlačítka
         let ratedState
