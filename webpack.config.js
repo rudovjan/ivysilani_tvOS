@@ -3,7 +3,7 @@ const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 
 const srcRoot = path.resolve(__dirname, 'web/app/')
-const distRoot = path.resolve(__dirname, 'web/dist/')
+const distRoot = path.resolve(__dirname, 'docs/app/')
 
 const entry = {
   app: srcRoot + '/app.js'

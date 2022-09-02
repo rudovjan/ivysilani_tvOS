@@ -49,7 +49,7 @@ ATV.start({
         } */
     {
       id: 'favorites',
-      name: 'Oblíbené',
+      name: 'Naše Oblíbené',
       page: FavoritesPage,
       attributes: { reloadOnSelect: true }
     },
